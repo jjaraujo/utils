@@ -1,0 +1,17 @@
+package br.gov.cvm.arrecadacao.exception;
+import java.util.function.Function;
+
+@FunctionalInterface
+public interface  ThrowingFunction<T, R> {
+    R apply(T t) throws Exception;
+
+    static <T, R> Function<T, R> consumer(ThrowingFunction<T, R> function) {
+        return i -> {
+            try {
+                return function.apply(i);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        };
+    }
+}
